@@ -55,6 +55,22 @@ public class TimerClient {
         });
     }
 
+    private static void testReflection() {
+        getBestTimer(100, 10).ifPresent(timer -> {
+            try {
+                System.out.printf("Fields of %s object %n", timer.getClass().getName());
+                var fields = timer.getClass().getDeclaredFields();
+                for (var field : fields) {
+                    field.setAccessible(true);
+                    Object value = field.get(timer);
+                    System.out.printf("  %s -> %s%n", field.getName(), value);
+                }
+            }
+            catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
     static void main() {
         System.out.printf("=========== testTimer ============%n");
@@ -63,7 +79,7 @@ public class TimerClient {
         System.out.printf("======= testTimerProvider ========%n");
         testTimerProvider();
 
-        //System.out.printf("========= testReflection =========%n");
-        //testReflection();
+        System.out.printf("========= testReflection =========%n");
+        testReflection();
     }
 }
