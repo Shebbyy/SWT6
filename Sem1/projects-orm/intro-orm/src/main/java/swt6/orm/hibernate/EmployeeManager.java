@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 public class EmployeeManager {
 
@@ -56,14 +57,25 @@ public class EmployeeManager {
     // v3
     // Connection Management cleanup
     public static void saveEmployee(Employee employee) {
-        // Session factory expensive, Sessions itself cheap
         try(var session = HibernateUtil.getCurrentSession()) {
             var tx = session.beginTransaction();
 
-            // persistance operations
-            session.persist(employee); // save employee
+            session.persist(employee);
 
             tx.commit();
+        }
+    }
+
+    private static List<Employee> getAllEmployees() {
+        try(var session = HibernateUtil.getCurrentSession()) {
+            var tx = session.beginTransaction();
+
+            // Select from JavaClass Order By ClassField
+            var l = session.createQuery("SELECT e FROM Employee e ORDER BY lastName", Employee.class).getResultList();
+
+            tx.commit();
+
+            return l;
         }
     }
 
@@ -71,7 +83,7 @@ public class EmployeeManager {
         HibernateUtil.getSessionFactory(); // Initialize at start of application for same performance on every action
     var    formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
     var    in        = new BufferedReader(new InputStreamReader(System.in));
-    String availCmds = "commands: quit, insert";
+    String availCmds = "commands: quit, insert, list";
 
     System.out.println("Hibernate Employee Admin");
     System.out.println(availCmds);
@@ -86,6 +98,12 @@ public class EmployeeManager {
                     promptFor(in, "lastName"),
                     LocalDate.parse(promptFor(in, "DOB (dd.mm.yyyy)"), formatter)
             ));
+
+            case "list" -> {
+                for (var employee : getAllEmployees()) {
+                    System.out.println(employee);
+                }
+            }
 
             default -> {
               System.out.println("ERROR: invalid command");
