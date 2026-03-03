@@ -15,6 +15,7 @@
 
         <property name="hibernate.current_session_context_class">thread</property>
 
-        <mapping resource="swt6/orm/domain/Employee.hbm.xml"/>
+        <!-- <mapping resource="swt6/orm/domain/Employee.hbm.xml"/> -->
+        <mapping class="swt6.orm.domain.Employee"/> <!-- for JPC -->
     </session-factory>
 </hibernate-configuration>

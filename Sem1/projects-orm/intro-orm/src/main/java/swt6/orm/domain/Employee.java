@@ -1,12 +1,19 @@
 package swt6.orm.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 // serializable not required for hibernate but useful for remote / apis
+@Entity
 public class Employee implements Serializable {
 
+    @Id
+    @GeneratedValue
     private Long id;
     private String firstName;
     private String lastName;
