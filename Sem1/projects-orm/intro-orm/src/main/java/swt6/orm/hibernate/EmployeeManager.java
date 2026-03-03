@@ -79,11 +79,43 @@ public class EmployeeManager {
         }
     }
 
+    private static boolean updateEmployee(long id, String firstName, String lastName, LocalDate dob) {
+        try(var session = HibernateUtil.getCurrentSession()) {
+            var tx = session.beginTransaction();
+
+            // Select from JavaClass Order By ClassField
+            var em = session.find(Employee.class, id);
+
+            if (em != null) {
+                em.setFirstName(firstName);
+                em.setLastName(lastName);
+                em.setDateOfBirth(dob);
+            }
+
+            tx.commit();
+
+            return em != null;
+        }
+    }
+
+    private static Employee findEmployeeById(long id) {
+        try(var session = HibernateUtil.getCurrentSession()) {
+            var tx = session.beginTransaction();
+
+            // Select from JavaClass Order By ClassField
+            var em = session.find(Employee.class, id);
+
+            tx.commit();
+
+            return em;
+        }
+    }
+
   public static void main(String[] args) {
         HibernateUtil.getSessionFactory(); // Initialize at start of application for same performance on every action
     var    formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
     var    in        = new BufferedReader(new InputStreamReader(System.in));
-    String availCmds = "commands: quit, insert, list";
+    String availCmds = "commands: quit, insert, list, findById, update";
 
     System.out.println("Hibernate Employee Admin");
     System.out.println(availCmds);
@@ -104,6 +136,24 @@ public class EmployeeManager {
                     System.out.println(employee);
                 }
             }
+            case "findById" -> System.out.println(findEmployeeById(Long.parseLong(promptFor(in, "id"))));
+
+            case "update" -> {
+                var id = Long.parseLong(promptFor(in, "id"));
+
+                if (updateEmployee(
+                        id,
+                        promptFor(in, "firstName"),
+                        promptFor(in, "lastName"),
+                        LocalDate.parse(promptFor(in, "DOB (dd.mm.yyyy)"), formatter))
+                ) {
+                    System.out.println("Update successful");
+                    System.out.println(findEmployeeById(id));
+                } else {
+                    System.out.println("Update failed");
+                }
+            }
+
 
             default -> {
               System.out.println("ERROR: invalid command");
