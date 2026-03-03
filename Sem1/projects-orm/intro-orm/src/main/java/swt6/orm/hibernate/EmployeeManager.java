@@ -1,6 +1,7 @@
 package swt6.orm.hibernate;
 
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import swt6.orm.domain.Employee;
 import swt6.util.HibernateUtil;
 
@@ -111,11 +112,52 @@ public class EmployeeManager {
         }
     }
 
+    private static List<Employee> findEmployeeByLastName(String lastName) {
+        try(var session = HibernateUtil.getCurrentSession()) {
+            var tx = session.beginTransaction();
+
+            var q = session.createQuery("SELECT e FROM Employee e WHERE lastName LIKE :lastName ORDER BY firstName", Employee.class);
+            q.setParameter("lastName", "%" + lastName + "%");
+
+            var l = q.getResultList();
+
+            tx.commit();
+
+            return l;
+        }
+    }
+
+    private static boolean deleteEmployeeById(long id) {
+        try(var session = HibernateUtil.getCurrentSession()) {
+            var tx = session.beginTransaction();
+
+            // Select from JavaClass Order By ClassField
+            var em = session.find(Employee.class, id);
+
+            // Var1
+            if (em != null) {
+                session.remove(em);
+            }
+            boolean deleted = em != null;
+
+
+            // Var2
+            //Query delQuery = session.createQuery("DELETE FROM Employee e WHERE e.id = :id");
+            //delQuery.setParameter("id", id);
+
+            //boolean deleted = delQuery.executeUpdate() > 0;
+
+            tx.commit();
+
+            return deleted;
+        }
+    }
+
   public static void main(String[] args) {
         HibernateUtil.getSessionFactory(); // Initialize at start of application for same performance on every action
     var    formatter = DateTimeFormatter.ofPattern("d.M.yyyy");
     var    in        = new BufferedReader(new InputStreamReader(System.in));
-    String availCmds = "commands: quit, insert, list, findById, update";
+    String availCmds = "commands: quit, insert, list, findById, update, findByLastName, delete";
 
     System.out.println("Hibernate Employee Admin");
     System.out.println(availCmds);
@@ -152,6 +194,17 @@ public class EmployeeManager {
                 } else {
                     System.out.println("Update failed");
                 }
+            }
+
+            case "findByLastName" -> {
+                for (var employee : findEmployeeByLastName(promptFor(in, "lastName"))) {
+                    System.out.println(employee);
+                }
+            }
+
+            case "delete" -> {
+                boolean success = deleteEmployeeById(Long.parseLong(promptFor(in, "id")));
+                System.out.println(success ? "Employee deleted" : "Employee not found!");
             }
 
 
