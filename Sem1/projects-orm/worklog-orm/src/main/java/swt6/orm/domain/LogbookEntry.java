@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.FetchMode;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,7 +23,8 @@ public class LogbookEntry implements Serializable {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @org.hibernate.annotations.Fetch(FetchMode.JOIN)
     @ToString.Exclude
     private Employee employee;
 
