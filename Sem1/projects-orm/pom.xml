@@ -11,6 +11,7 @@
 
     <modules>
         <module>intro-orm</module>
+        <module>worklog-orm</module>
     </modules>
 
     <properties>
