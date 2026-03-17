@@ -1,8 +1,9 @@
-package swt6.spring.basics.ioc.logic.annotationconfig;
+package swt6.spring.basics.ioc.logic.javaconfig;
 
 import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swt6.spring.basics.ioc.domain.Employee;
 import swt6.spring.basics.ioc.logic.WorkLogService;
@@ -15,21 +16,22 @@ import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor
-@Service("workLogService")
+@Service("WorkLogService")
 public class WorkLogServiceImpl implements WorkLogService {
   private final Map<Long, Employee> employees = new HashMap<>();
 
   // var 2 setter injection, when using lombok
   // @Setter(onMethod_ = @Autowired)
-  @Setter
+  @Autowired
+  @Log(Log.Type.CONSOLE)
   private Logger logger;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public WorkLogServiceImpl(@Log(Log.Type.CONSOLE) Logger logger) {
-        this.logger = logger;
-    }
+  public WorkLogServiceImpl(Logger logger) {
+      init();
+      this.logger = logger;
+  }
 
-    private void init() {
+  private void init() {
     employees.put(1L, new Employee(1L, "Bill", "Gates"));
     employees.put(2L, new Employee(2L, "James", "Goslin"));
     employees.put(3L, new Employee(3L, "Bjarne", "Stroustrup"));

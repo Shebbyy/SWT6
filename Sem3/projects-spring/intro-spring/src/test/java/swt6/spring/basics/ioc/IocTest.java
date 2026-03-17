@@ -1,9 +1,9 @@
 package swt6.spring.basics.ioc;
 
 import org.junit.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import swt6.spring.basics.hello.GreetingService;
 import swt6.spring.basics.ioc.logic.WorkLogService;
 import swt6.spring.basics.ioc.logic.factorybased.WorkLogServiceImpl;
 
@@ -41,5 +41,12 @@ public class IocTest {
 
   @Test
   public void testJavaConfig() {
+      try (AbstractApplicationContext factory = new AnnotationConfigApplicationContext(IocConfig.class)) {
+          WorkLogService service = factory.getBean(WorkLogService.class);
+
+          service.findAllEmployees();
+
+          service.findEmployeeById(3L);
+      }
   }
 }
