@@ -17,7 +17,6 @@ public class IocTest {
 
       workLog.findEmployeeById(3L);
   }
-
   @Test
   public void testXmlConfig() {
       try (AbstractApplicationContext factory = new ClassPathXmlApplicationContext("swt6/spring/basics/ioc/applicationcontext-xml-config.xml")) {
@@ -28,6 +27,17 @@ public class IocTest {
           service.findEmployeeById(3L);
       }
   }
+
+    @Test
+    public void testAnnotationConfig() {
+        try (AbstractApplicationContext factory = new ClassPathXmlApplicationContext("swt6/spring/basics/ioc/applicationcontext-xml-config.xml")) {
+            WorkLogService service = factory.getBean("workLogService", WorkLogService.class);
+
+            service.findAllEmployees();
+
+            service.findEmployeeById(3L);
+        }
+    }
 
   @Test
   public void testJavaConfig() {
