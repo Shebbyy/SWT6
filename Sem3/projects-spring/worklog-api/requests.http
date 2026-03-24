@@ -1,0 +1,7 @@
+### hello
+GET http://localhost:8080/worklog/hello
+Accept: text/plain
+
+### Get all Employees
+GET localhost:8080/worklog/employees
+Accept: application/json
