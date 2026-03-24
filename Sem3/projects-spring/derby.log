@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Tue Mar 24 11:25:16 CET 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217): instance a816c00e-019d-1f60-9540-00000401cd40 
+on database directory memory:/home/Shebby/OneDrive/Sem6/SWT/Seminars/Sem3/projects-spring/667a7f74-2f2b-4ba5-b8d5-73e0336acf1e with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528 
+Loaded from file:/home/Shebby/.m2/repository/org/apache/derby/derby/10.17.1.0/derby-10.17.1.0.jar
+java.vendor=Arch Linux
+java.runtime.version=21.0.10+7
+user.dir=/home/Shebby/OneDrive/Sem6/SWT/Seminars/Sem3/projects-spring
+os.name=Linux
+os.arch=amd64
+os.version=6.19.8-arch1-1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Tue Mar 24 11:26:23 CET 2026:
+Shutting down instance a816c00e-019d-1f60-9540-00000401cd40 on database directory memory:/home/Shebby/OneDrive/Sem6/SWT/Seminars/Sem3/projects-spring/667a7f74-2f2b-4ba5-b8d5-73e0336acf1e with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528 

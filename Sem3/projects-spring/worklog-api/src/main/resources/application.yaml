@@ -1,0 +1,20 @@
+# profiles active by default
+spring:
+  profiles:
+    active: dev
+  # By default an in memory derby server is used.
+  # JPA configuration can be customized with properties
+  jpa:
+    show-sql: false
+    open-in-view: true
+
+# logging: suppress logging of derby exceptions that are thrown
+#  if non-existing schemas or tables are dropped.
+logging:
+  level:
+    org.hibernate.tool.schema.internal: error
+    com.zaxxer.hikari.pool.ProxyConnection: error
+
+#springdoc:
+#  api-docs.path: /v3/api-docs       # springdoc.api-docs.path: /v3/api-docs
+#  swagger-ui.path: /swagger-ui.html # swagger-ui custom path (default)
