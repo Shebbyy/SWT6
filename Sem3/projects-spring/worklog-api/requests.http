@@ -5,3 +5,16 @@ Accept: text/plain
 ### Get all Employees
 GET localhost:8080/worklog/employees
 Accept: application/json
+
+### Get Employee By ID (Success)
+GET localhost:8080/worklog/employee/1
+Accept: application/json
+
+### Get Employee By ID (Failure)
+GET localhost:8080/worklog/employee/-1
+Accept: application/json
+
+### OpenAPI Document
+#GET localhost:8080/swagger-ui/index.html
+GET localhost:8080/v3/api-docs
+Accept: application/json
